@@ -98,7 +98,7 @@ function closeModal() {
 
 <style scoped>
 .hero {
-  padding: 48px 0 24px;
+  padding: clamp(32px, 6vw, 64px) 0 clamp(24px, 4vw, 48px);
   border-bottom: 1px solid var(--line);
 }
 .hero__label {
@@ -107,22 +107,19 @@ function closeModal() {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 13px;
-}
-.hero h1 {
-  margin: 0 0 12px;
-  font-size: 40px;
+  font-size: 0.85rem;
 }
 .hero p {
   max-width: 720px;
   margin: 0;
+  font-size: clamp(1rem, 2vw, 1.125rem);
 }
 .hero__actions {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 .btn-link {
   display: inline-block;
-  padding: 8px 14px;
+  padding: 10px 18px;
   border: 1px solid var(--line);
   background: var(--card);
   color: var(--text);
@@ -130,7 +127,7 @@ function closeModal() {
   text-decoration: none;
 }
 .section {
-  padding: 36px 0;
+  padding: clamp(24px, 5vw, 48px) 0;
 }
 .section--alt {
   background: var(--bg-alt);
@@ -159,11 +156,13 @@ function closeModal() {
   background: var(--accent);
   color: var(--bg);
 }
+
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
 }
+
 .modal {
   display: none;
   position: fixed;
@@ -180,6 +179,7 @@ function closeModal() {
   border: 1px solid var(--line);
   border-radius: 12px;
   max-width: 520px;
+  width: 100%;
   margin: 80px auto 0;
   padding: 20px;
   position: relative;
@@ -195,12 +195,5 @@ function closeModal() {
   background: var(--bg);
   color: var(--text);
   cursor: pointer;
-}
-@media (max-width: 768px) {
-  .project-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 560px) {
-  .hero h1 { font-size: 30px; }
-  .project-grid { grid-template-columns: 1fr; }
 }
 </style>

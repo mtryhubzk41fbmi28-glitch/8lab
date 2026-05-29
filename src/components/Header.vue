@@ -1,27 +1,37 @@
 <template>
   <nav class="main-nav">
     <div class="container nav-row">
-      <div class="nav-links">
-        <RouterLink to="/">{{ t.navHome }}</RouterLink>
-        <RouterLink to="/contacts">{{ t.navContacts }}</RouterLink>
-      </div>
-      <div class="nav-controls">
-        <button 
-          :class="{ active: store.language === 'uk' }" 
-          @click="store.setLanguage('uk')"
-        >UA</button>
-        <button 
-          :class="{ active: store.language === 'en' }" 
-          @click="store.setLanguage('en')"
-        >EN</button>
-        <button @click="store.toggleTheme">{{ t.themeButton }}</button>
+      <div class="nav-logo">Portfolio</div>
+      
+      <button class="burger" @click="isMenuOpen = !isMenuOpen" aria-label="Меню">
+        <span v-if="!isMenuOpen">☰</span>
+        <span v-else>✕</span>
+      </button>
+
+      <div class="nav-content" :class="{ 'is-open': isMenuOpen }">
+        <div class="nav-links">
+          <RouterLink to="/" @click="closeMenu">{{ t.navHome }}</RouterLink>
+          <RouterLink to="/contacts" @click="closeMenu">{{ t.navContacts }}</RouterLink>
+        </div>
+        <div class="nav-controls">
+          <button :class="{ active: store.language === 'uk' }" @click="store.setLanguage('uk')">UA</button>
+          <button :class="{ active: store.language === 'en' }" @click="store.setLanguage('en')">EN</button>
+          <button @click="store.toggleTheme">{{ t.themeButton }}</button>
+        </div>
       </div>
     </div>
   </nav>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { store, t } from '../store.js';
+
+const isMenuOpen = ref(false);
+
+function closeMenu() {
+  isMenuOpen.value = false;
+}
 </script>
 
 <style scoped>
@@ -37,7 +47,15 @@ import { store, t } from '../store.js';
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.nav-logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.nav-content {
+  display: flex;
   gap: 16px;
+  align-items: center;
 }
 .nav-links, .nav-controls {
   display: flex;
@@ -58,10 +76,41 @@ a, button {
   background: var(--accent);
   color: var(--bg);
 }
+
+.burger {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  padding: 4px;
+}
+
 @media (max-width: 768px) {
-  .nav-row {
+  .burger {
+    display: block;
+  }
+  .nav-content {
+    display: none;
     flex-direction: column;
-    align-items: flex-start;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--bg);
+    padding: 20px;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  .nav-content.is-open {
+    display: flex;
+  }
+  .nav-links, .nav-controls {
+    width: 100%;
+    flex-direction: column;
+  }
+  .nav-links a, .nav-controls button {
+    width: 100%;
+    text-align: center;
   }
 }
 </style>
